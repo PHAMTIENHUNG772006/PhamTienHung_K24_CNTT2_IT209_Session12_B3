@@ -1,0 +1,44 @@
+name: CD Multi-Environment Deployment
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  # Job deploy cho môi trường Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://api.staging.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          echo "Deploying application to Staging environment..."
+          # Thêm các lệnh build/deploy của bạn tại đây (ví dụ: SSH, Docker, AWS CLI, v.v.)
+          echo "Staging deployment completed successfully!"
+
+  # Job deploy cho môi trường Production
+  deploy-prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://api.prod.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          echo "Deploying application to Production environment..."
+          # Thêm các lệnh build/deploy thực tế lên production tại đây
+          echo "Production deployment completed successfully!"
